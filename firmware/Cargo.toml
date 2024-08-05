@@ -1,0 +1,33 @@
+[package]
+edition = "2021"
+name = "firmware"
+version = "0.1.0"
+authors = ["Kevin J. Lynagh <kevin@keminglabs.com>"]
+
+[dependencies]
+schema = { path = "../schema" }
+
+embassy-stm32 =    { git = "https://github.com/embassy-rs/embassy", features = ["defmt", "stm32f103c8", "unstable-pac", "memory-x", "time-driver-any"]  }
+embassy-sync =     { git = "https://github.com/embassy-rs/embassy", features = ["defmt"] }
+embassy-executor = { git = "https://github.com/embassy-rs/embassy", features = ["arch-cortex-m", "executor-thread", "defmt", "integrated-timers"] }
+embassy-time =     { git = "https://github.com/embassy-rs/embassy", features = ["defmt", "defmt-timestamp-uptime", "tick-hz-32_768"] }
+embassy-usb =      { git = "https://github.com/embassy-rs/embassy", features = ["defmt"] }
+embassy-futures =  { git = "https://github.com/embassy-rs/embassy" }
+
+defmt = "0.3"
+defmt-rtt = "0.4"
+
+cortex-m = { version = "0.7.6", features = ["inline-asm", "critical-section-single-core"] }
+cortex-m-rt = "0.7.0"
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+bytemuck = "1.16.3"
+
+[profile.dev]
+opt-level = "s"
+
+[profile.release]
+debug = 2
+lto = true
+opt-level = "s"
+incremental = false
+codegen-units = 1

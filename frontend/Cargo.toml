@@ -1,0 +1,11 @@
+[package]
+name = "frontend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+schema = { path = "../schema" }
+nusb = "0.1"
+futures-lite = "2"
+
+

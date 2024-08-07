@@ -36,7 +36,7 @@ All columns in following table have:
 - USB and device power cycled after flashing and first negative observation
 - debugger disconnected
 
-
+|                            |   |   |   |   |   |
 |----------------------------|---|---|---|---|---|
 | timer-driven DMA           | x | x |   | x | x |
 | ADC DMA                    | x | x | x |   | x |

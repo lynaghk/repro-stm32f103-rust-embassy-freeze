@@ -62,3 +62,5 @@ Feel free to look at [all_registers.txt](all_registers.txt) for the full dump of
 - Is your specific board / chip cursed? Unlikely, I was able to repro the freeze on an stm32f103 "blue pill" dev board I had laying around
 
 - Is it a hard fault? I don't think so, as the CPU never jumps to the installed handler (which just infinite loops).
+
+- Is the stm32f103 chip cursed? I looked through the [device errata](https://www.st.com/resource/en/errata_sheet/es0340-stm32f101xcde-stm32f103xcde-device-errata-stmicroelectronics.pdf), didn't see anything jump out.

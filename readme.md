@@ -57,6 +57,15 @@ I don't see any obvious error flags in the status registers called out by Memfau
 Feel free to look at [all_registers.txt](all_registers.txt) for the full dump of a frozen state.
 
 
+Everything was compiled and the data above collected via:
+
+- M1 MacBook Air
+- MacOS 12.7.2
+- USBC port -> HDMI + USB A female + USB C power input dongle (unknown) -> [4-port Sabrent USB Hub](https://www.amazon.nl/-/en/gp/product/B00JX1ZS5O/) -> ST Link v2 and board's USB receptacle connected to STM32 pins.
+
+![](usb.png)
+
+
 ## Hypotheses
 
 - Is your specific board / chip cursed? Unlikely, I was able to repro the freeze on an stm32f103 "blue pill" dev board I had laying around

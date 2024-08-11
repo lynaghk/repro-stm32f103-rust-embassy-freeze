@@ -68,8 +68,10 @@ Everything was compiled and the data above collected via:
 
 ## Hypotheses
 
-- Is your specific board / chip cursed? Unlikely, I was able to repro the freeze on an stm32f103 "blue pill" dev board I had laying around
+- Is your specific board / chip cursed? No, I was able to repro the freeze on an stm32f103 "blue pill" dev board I had laying around, and the bug has been reproduced by another developer with their own hardware.
 
 - Is it a hard fault? I don't think so, as the CPU never jumps to the installed handler (which just infinite loops).
 
 - Is the stm32f103 chip cursed? I looked through the [device errata](https://www.st.com/resource/en/errata_sheet/es0340-stm32f101xcde-stm32f103xcde-device-errata-stmicroelectronics.pdf), didn't see anything jump out.
+
+- (From my friend Jeff, who has reproduced the issue): There's [some kind of bus contention when device enters sleep](https://github.com/lynaghk/repro-stm32f103-rust-embassy-freeze/issues/1).

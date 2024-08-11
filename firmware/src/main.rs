@@ -34,6 +34,8 @@ unsafe fn HardFault(_ef: &ExceptionFrame) -> ! {
     loop {}
 }
 
+static mut DMA_TARGET: u32 = 0;
+
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
     let mut config = Config::default();
@@ -119,9 +121,9 @@ async fn main(_spawner: Spawner) {
     let mut opts = TransferOptions::default();
     opts.circular = true;
 
-    let foo: u32 = 0;
-    let dma_target = &foo as *const u32 as *mut u32;
+    // When I originally came across this bug I had DMA writing to GPIO, but the bug persists even when DMA just writes to memory.
     // let dma_target = gpioa.bsrr().as_ptr() as *mut u32;
+    let dma_target = unsafe { core::ptr::addr_of!(DMA_TARGET) as *mut u32 };
 
     let request = embassy_stm32::timer::UpDma::request(&p.DMA1_CH5);
 

@@ -28,6 +28,13 @@ Then run the USB frontend, which prints ADC readings and sends command messages 
     cargo run --release
 
 
+If you are worried about non-reproducible firmware builds, you can run
+
+    probe-rs run --always-print-stacktrace --chip STM32F103C8 --log-format '{t} {L} {s}' firmware/firmware_00b176a
+
+to flash firmware built from commit 00b176a. This firmware froze after 15 seconds on an stm32f103 dev board.
+
+
 ## Observations
 
 All columns in following table have:

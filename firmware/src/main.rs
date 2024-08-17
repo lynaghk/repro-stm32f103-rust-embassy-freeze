@@ -36,6 +36,8 @@ unsafe fn HardFault(_ef: &ExceptionFrame) -> ! {
 
 static mut DMA_TARGET: u32 = 0;
 
+static SIGNAL: [u32; 3] = [1, 2, 3];
+
 #[embassy_executor::main]
 async fn main(_spawner: Spawner) {
     let mut config = Config::default();
@@ -122,13 +124,18 @@ async fn main(_spawner: Spawner) {
     opts.circular = true;
 
     // When I originally came across this bug I had DMA writing to GPIO, but the bug persists even when DMA just writes to memory.
-    // let dma_target = gpioa.bsrr().as_ptr() as *mut u32;
+    // let dma_target = embassy_stm32::pac::GPIOA.bsrr().as_ptr() as *mut u32;
     let dma_target = unsafe { core::ptr::addr_of!(DMA_TARGET) as *mut u32 };
+
+    // The freeze only occurs when DMA source is read from flash, not from the stack
+    let dma_source = &SIGNAL;
+    // let dma_source = &[0u32];
 
     let request = embassy_stm32::timer::UpDma::request(&p.DMA1_CH5);
 
     // comment this out to disable timer-driven DMA
-    let _transfer = unsafe { Transfer::new_write(p.DMA1_CH5, request, &[0u32], dma_target, opts) };
+    let _transfer =
+        unsafe { Transfer::new_write(p.DMA1_CH5, request, dma_source, dma_target, opts) };
 
     ////////////////////////
     // ADC setup
@@ -266,12 +273,5 @@ async fn main(_spawner: Spawner) {
     //     }
     // };
 
-    let fut_ping = async {
-        loop {
-            info!("ping");
-            Timer::after_secs(1).await;
-        }
-    };
-
-    join(fut_ping, join(fut_commands, join(fut_usb, fut_stream_adc))).await;
+    join(fut_commands, join(fut_usb, fut_stream_adc)).await;
 }

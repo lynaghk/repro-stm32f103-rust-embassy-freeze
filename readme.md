@@ -82,3 +82,4 @@ Everything was compiled and the data above collected via:
 - Is the stm32f103 chip cursed? I looked through the [device errata](https://www.st.com/resource/en/errata_sheet/es0340-stm32f101xcde-stm32f103xcde-device-errata-stmicroelectronics.pdf), didn't see anything jump out.
 
 - (From my friend Jeff, who has reproduced the issue): There's [some kind of bus contention when device enters sleep](https://github.com/lynaghk/repro-stm32f103-rust-embassy-freeze/issues/1).
+  - this is consistent with this [stm32 wfi bug writeup](https://cliffle.com/blog/stm32-wfi-bug/) (thanks Matt for pointing to this!)

@@ -80,6 +80,7 @@ Everything was compiled and the data above collected via:
 - Is it a hard fault? I don't think so, as the CPU never jumps to the installed handler (which just infinite loops).
 
 - Is the stm32f103 chip cursed? I looked through the [device errata](https://www.st.com/resource/en/errata_sheet/es0340-stm32f101xcde-stm32f103xcde-device-errata-stmicroelectronics.pdf), didn't see anything jump out.
+  - *However* A friend was *unable* to reproduce the issue, even using the bit-for-bit identical firmware [checked into the repo](/firmware/firmware_00b176a). Turns out all of my hardware (with the freeze) had `CPUID 0x411fc231` (arm, rev 1, cortex-m3, patch 1), whereas his (no freeze) had 0x412fc231 (arm, rev 2, cortex-m3, patch 1). Perhaps there's something in [ARM's errata](https://developer.arm.com/documentation/EPM039114/latest/)
 
 - (From my friend Jeff, who has reproduced the issue): There's [some kind of bus contention when device enters sleep](https://github.com/lynaghk/repro-stm32f103-rust-embassy-freeze/issues/1).
   - this is consistent with this [stm32 wfi bug writeup](https://cliffle.com/blog/stm32-wfi-bug/) (thanks Matt for pointing to this!)
